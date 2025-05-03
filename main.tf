@@ -2,6 +2,11 @@ provider "aws" {
   region = var.aws_region
 }
 
+resource "aws_key_pair" "group3_key" {
+  key_name   = "group3-key"
+  public_key = file(var.public_key_path)
+}
+
 data "aws_availability_zones" "available" {}
 
 module "vpc" {
@@ -30,25 +35,4 @@ module "rds" {
   db_password   = var.db_password
   subnet_ids    = module.vpc.public_subnet_ids
   sg_id         = module.sg.sg_id
-}
-resource "aws_security_group" "group" {
-  name        = "group-3"
-  description = "Allow SSH and MySQL access"
-  vpc_id      = module.vpc.vpc_id
-
-  ingress {
-    from_port   = 3306
-    to_port     = 3306
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = "group-3-security-group"
-  }
-}
-
-resource "aws_key_pair" "group3_key" {
-  key_name   = "group3-key"
-  public_key = file(var.public_key_path)
 }

@@ -19,4 +19,5 @@ define('DB_NAME', '${var.db_name}');
 define('DB_USER', '${var.db_user}');
 define('DB_PASSWORD', '${var.db_password}');
 define('DB_HOST', '${aws_db_instance.wordpress_db.endpoint}');
+define('WP_ALLOW_REPAIR', true);
 EOF
